@@ -11,7 +11,12 @@ export interface AuthUser {
     providedIn: 'root'
 })
 export class AuthService {
-    private currentUser: AuthUser | null = null;
+    private currentUser: AuthUser | null = this.loadUser();
+
+    private loadUser(): AuthUser | null {
+        const user = localStorage.getItem('currentUser');
+        return user ? JSON.parse(user) as AuthUser: null;
+    }
 
     login(username: string, password: string): boolean {
 
@@ -20,6 +25,11 @@ export class AuthService {
                 username: 'admin',
                 role: 'Admin'
             };
+
+            localStorage.setItem(
+                'currentUser',
+                JSON.stringify(this.currentUser)
+            );
 
         return true;
         }
@@ -30,6 +40,11 @@ export class AuthService {
                 role: 'User'
             };
 
+            localStorage.setItem(
+                'currentUser',
+                JSON.stringify(this.currentUser)
+            );
+
             return true;
         }
 
@@ -38,6 +53,7 @@ export class AuthService {
 
     logout(): void {
         this.currentUser = null;
+        localStorage.removeItem('currentUser');
     }
 
     isLoggedIn(): boolean {
