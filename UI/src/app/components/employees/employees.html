@@ -40,7 +40,7 @@
 
                   <button
                     class="btn btn-sm btn-danger"
-                    (click)="onDelete(employee.id)">
+                    (click)="requestDelete(employee)">
                     Delete
                   </button>
                 </td>
@@ -58,6 +58,41 @@
       </div>
 
     </div>
+
+    @if (pendingDeleteEmployee; as employee) {
+      <div
+        class="modal fade show d-block"
+        tabindex="-1"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="deleteEmployeeTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteEmployeeTitle">Confirm deletion</h5>
+              <button
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+                (click)="cancelDelete()">
+              </button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete <strong>{{ employee.name }}</strong>?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="cancelDelete()">
+                Cancel
+              </button>
+              <button type="button" class="btn btn-danger" (click)="confirmDelete()">
+                Yes, delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-backdrop fade show"></div>
+    }
   </div>
 
 </div>

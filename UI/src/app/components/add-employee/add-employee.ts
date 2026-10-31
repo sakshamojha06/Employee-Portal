@@ -3,6 +3,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmployeeService } from '../../services/employee';
 import { Router, RouterLink } from '@angular/router';
 import { Employee } from '../../models/employee';
+import { NotificationService } from '../../services/notification';
+import { ConfirmationService } from '../../services/confirmation';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -14,6 +16,8 @@ export class AddEmployee {
   private fb = inject(FormBuilder);
   private employeeService = inject(EmployeeService);
   private router = inject(Router);
+  private notificationService = inject(NotificationService);
+  private confirmationService = inject(ConfirmationService);
 
   employeeForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
@@ -33,14 +37,18 @@ export class AddEmployee {
     };
 
     this.employeeService.addEmployee(newEmployee);
+    this.employeeForm.markAsPristine();
+    this.notificationService.show('Employee added successfully.', 'success');
     this.router.navigate(['/employees']);
   }
 
-  canDeactivate(): boolean {
-  if (this.employeeForm.dirty) {
-    return confirm('You have unsaved changes. Are you sure you want to leave?');
-  }
+  canDeactivate(): boolean | Promise<boolean> {
+    if (this.employeeForm.dirty) {
+      return this.confirmationService.ask(
+        'You have unsaved changes. Do you really want to leave this page?'
+      );
+    }
 
-  return true;
-}
+    return true;
+  }
 }

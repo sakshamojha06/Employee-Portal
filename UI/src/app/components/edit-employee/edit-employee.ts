@@ -3,6 +3,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { EmployeeService } from '../../services/employee';
 import { Employee } from '../../models/employee';
+import { NotificationService } from '../../services/notification';
+import { ConfirmationService } from '../../services/confirmation';
 
 @Component({
   selector: 'app-edit-employee',
@@ -17,6 +19,8 @@ export class EditEmployee {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private employeeService = inject(EmployeeService);
+  private notificationService = inject(NotificationService);
+  private confirmationService = inject(ConfirmationService);
 
   employeeId = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -52,14 +56,18 @@ export class EditEmployee {
     };
 
     this.employeeService.updateEmployee(updatedEmployee);
+    this.employeeForm.markAsPristine();
+    this.notificationService.show('Employee updated successfully.', 'success');
     this.router.navigate(['/employees']);
   }
 
-  canDeactivate(): boolean {
-  if (this.employeeForm.dirty) {
-    return confirm('You have unsaved changes. Are you sure you want to leave?');
-  }
+  canDeactivate(): boolean | Promise<boolean> {
+    if (this.employeeForm.dirty) {
+      return this.confirmationService.ask(
+        'You have unsaved changes. Do you really want to leave this page?'
+      );
+    }
 
-  return true;
-}
+    return true;
+  }
 }

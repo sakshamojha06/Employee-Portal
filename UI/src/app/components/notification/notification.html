@@ -1,0 +1,13 @@
+@if (notificationService.message(); as message) {
+  <div
+    class="alert alert-{{ notificationService.type() }} alert-dismissible fade show notification"
+    role="alert">
+    {{ message }}
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close notification"
+      (click)="notificationService.dismiss()">
+    </button>
+  </div>
+}
