@@ -1,1 +1,63 @@
-<p>employees works!</p>
+<div class="container mt-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Employees List</h2>
+
+    <a routerLink="/employees/add" class="btn btn-primary">
+      <i class="bi bi-plus-circle"></i>
+      Add Employee
+    </a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Bio</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (employee of employees; track employee.id) {
+              <tr>
+                <td>{{ employee.id }}</td>
+                <td>{{ employee.name }}</td>
+                <td>{{ employee.bio }}</td>
+
+                <td>
+                  <a
+                    [routerLink]="['/employees/edit', employee.id]"
+                    class="btn btn-sm btn-warning me-2">
+                    Edit
+                  </a>
+
+                  <button
+                    class="btn btn-sm btn-danger"
+                    (click)="onDelete(employee.id)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4" class="text-center text-muted py-4">
+                  No employees found.
+                </td>
+              </tr>
+            }
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>
