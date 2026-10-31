@@ -35,4 +35,12 @@ export class AddEmployee {
     this.employeeService.addEmployee(newEmployee);
     this.router.navigate(['/employees']);
   }
+
+  canDeactivate(): boolean {
+  if (this.employeeForm.dirty) {
+    return confirm('You have unsaved changes. Are you sure you want to leave?');
+  }
+
+  return true;
+}
 }

@@ -9,6 +9,7 @@ import { AccessDenied } from './components/access-denied/access-denied';
 import { NotFound } from './components/not-found/not-found';
 import { authGuard } from './guards/auth-guard';
 import { roleGuard } from './guards/role-guard';
+import { unsavedChangesGuard } from './guards/unsaved-changes-guard';
 
 export const routes: Routes = [
     {
@@ -34,12 +35,14 @@ export const routes: Routes = [
         path: 'employees/add',
         component: AddEmployee,
         canActivate: [authGuard, roleGuard],
+        canDeactivate: [unsavedChangesGuard],
         data: { role: 'Admin' }
     },
     {
         path: 'employees/edit/:id',
         component: EditEmployee,
         canActivate: [authGuard, roleGuard],
+        canDeactivate: [unsavedChangesGuard],
         data: { role: 'Admin' }
     },
     {

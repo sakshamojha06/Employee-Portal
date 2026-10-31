@@ -54,4 +54,12 @@ export class EditEmployee {
     this.employeeService.updateEmployee(updatedEmployee);
     this.router.navigate(['/employees']);
   }
+
+  canDeactivate(): boolean {
+  if (this.employeeForm.dirty) {
+    return confirm('You have unsaved changes. Are you sure you want to leave?');
+  }
+
+  return true;
+}
 }
