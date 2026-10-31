@@ -1,0 +1,12 @@
+.navbar {
+  padding: 14px 0;
+}
+
+.navbar-brand {
+  font-size: 22px;
+  letter-spacing: 0.5px;
+}
+
+.btn {
+  font-weight: 500;
+}
