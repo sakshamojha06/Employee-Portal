@@ -1,29 +1,40 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
 
-    <a class="navbar-brand fw-bold" routerLink="/">
+    <a class="navbar-brand" routerLink="/">
       Employee Portal
     </a>
 
-    <div class="d-flex gap-2">
+    <div class="navbar-nav ms-auto align-items-center">
 
-      <a
-        class="btn btn-outline-light"
-        routerLink="/"
-      >
+      <a class="nav-link" routerLink="/">
         Home
       </a>
 
-      <a
-        class="btn btn-primary"
-        routerLink="/login"
-      >
-        Login
-      </a>
+      @if (isLoggedIn) {
+        <a class="nav-link" routerLink="/dashboard">
+          Dashboard
+        </a>
+      }
+
+      @if (isLoggedIn && isAdmin) {
+        <a class="nav-link" routerLink="/employees">
+          Employees
+        </a>
+      }
+
+      @if (!isLoggedIn) {
+        <a class="btn btn-outline-light ms-2" routerLink="/login">
+          Login
+        </a>
+      }
+
+      @if (isLoggedIn) {
+        <button class="btn btn-danger ms-2" (click)="onLogout()">
+          Logout
+        </button>
+      }
 
     </div>
-
   </div>
-
 </nav>

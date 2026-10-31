@@ -1,12 +1,16 @@
 .navbar {
-  padding: 14px 0;
+  padding: 12px 0;
 }
 
 .navbar-brand {
-  font-size: 22px;
-  letter-spacing: 0.5px;
+  font-weight: 600;
+  font-size: 21px;
+}
+
+.nav-link {
+  margin: 0 8px;
 }
 
 .btn {
-  font-weight: 500;
+  border-radius: 6px;
 }
