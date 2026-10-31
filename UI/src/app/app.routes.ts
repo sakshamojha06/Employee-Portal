@@ -7,6 +7,8 @@ import { AddEmployee } from './components/add-employee/add-employee';
 import { EditEmployee } from './components/edit-employee/edit-employee';
 import { AccessDenied } from './components/access-denied/access-denied';
 import { NotFound } from './components/not-found/not-found';
+import { authGuard } from './guards/auth-guard';
+import { roleGuard } from './guards/role-guard';
 
 export const routes: Routes = [
     {
@@ -19,19 +21,26 @@ export const routes: Routes = [
     },
     {
         path: 'dashboard',
-        component: Dashboard
+        component: Dashboard,
+        canActivate: [authGuard]
     },
     {
         path: 'employees',
-        component: Employees
+        component: Employees,
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'Admin' }
     },
     {
         path: 'employees/add',
-        component: AddEmployee
+        component: AddEmployee,
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'Admin' }
     },
     {
         path: 'employees/edit/:id',
-        component: EditEmployee
+        component: EditEmployee,
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'Admin' }
     },
     {
         path: 'access-denied',
